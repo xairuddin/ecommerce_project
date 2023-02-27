@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import * as events from "events";
 import {Luv2ShopFormService} from "../../services/luv2-shop-form.service";
 import {Country} from "../../common/country";
 import {State} from "../../common/state";
@@ -36,7 +35,7 @@ export class CheckoutComponent implements OnInit {
               private cartService: CartService,
               private checkoutService: CheckoutService,
               private luv2ShopFormService: Luv2ShopFormService,
-              private router: Router) { }
+              private router: Router) {}
 
   ngOnInit(): void {
 
@@ -45,11 +44,11 @@ export class CheckoutComponent implements OnInit {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required,
-                                                          Validators.minLength(2),
-                                                          Luv2ShopValidators.notOnlyWhitespace]),
+          Validators.minLength(2),
+          Luv2ShopValidators.notOnlyWhitespace]),
         lastName: new FormControl('', [Validators.required,
-                                                          Validators.minLength(2),
-                                                          Luv2ShopValidators.notOnlyWhitespace]),
+          Validators.minLength(2),
+          Luv2ShopValidators.notOnlyWhitespace]),
         email: new FormControl('',
           [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
@@ -110,30 +109,71 @@ export class CheckoutComponent implements OnInit {
   get firstName() {
     return this.checkoutFormGroup.get('customer.firstName')!;
   }
+
   get lastName() {
     return this.checkoutFormGroup.get('customer.lastName')!;
   }
+
   get email() {
     return this.checkoutFormGroup.get('customer.email')!;
   }
 
-  get shippingAddressStreet() {return this.checkoutFormGroup.get('shippingAddress.street')!;}
-  get shippingAddressCity() {return this.checkoutFormGroup.get('shippingAddress.city')!;}
-  get shippingAddressState() {return this.checkoutFormGroup.get('shippingAddress.state')!;}
-  get shippingAddressCountry() {return this.checkoutFormGroup.get('shippingAddress.country')!;}
-  get shippingAddressZipCode() {return this.checkoutFormGroup.get('shippingAddress.zipCode')!;}
+  get shippingAddressStreet() {
+    return this.checkoutFormGroup.get('shippingAddress.street')!;
+  }
+
+  get shippingAddressCity() {
+    return this.checkoutFormGroup.get('shippingAddress.city')!;
+  }
+
+  get shippingAddressState() {
+    return this.checkoutFormGroup.get('shippingAddress.state')!;
+  }
+
+  get shippingAddressCountry() {
+    return this.checkoutFormGroup.get('shippingAddress.country')!;
+  }
+
+  get shippingAddressZipCode() {
+    return this.checkoutFormGroup.get('shippingAddress.zipCode')!;
+  }
 
 
-  get billingAddressStreet() {return this.checkoutFormGroup.get('billingAddress.street')!;}
-  get billingAddressCity() {return this.checkoutFormGroup.get('billingAddress.city')!;}
-  get billingAddressState() {return this.checkoutFormGroup.get('billingAddress.state')!;}
-  get billingAddressCountry() {return this.checkoutFormGroup.get('billingAddress.country')!;}
-  get billingAddressZipCode() {return this.checkoutFormGroup.get('billingAddress.zipCode')!;}
+  get billingAddressStreet() {
+    return this.checkoutFormGroup.get('billingAddress.street')!;
+  }
 
-  get creditCardType() {return this.checkoutFormGroup.get('creditCard.cardType')!;}
-  get creditCardNameOnCard() {return this.checkoutFormGroup.get('creditCard.nameOnCard')!;}
-  get creditCardNumber() {return this.checkoutFormGroup.get('creditCard.cardNumber')!;}
-  get creditCardSecurityCode() {return this.checkoutFormGroup.get('creditCard.securityCode')!;}
+  get billingAddressCity() {
+    return this.checkoutFormGroup.get('billingAddress.city')!;
+  }
+
+  get billingAddressState() {
+    return this.checkoutFormGroup.get('billingAddress.state')!;
+  }
+
+  get billingAddressCountry() {
+    return this.checkoutFormGroup.get('billingAddress.country')!;
+  }
+
+  get billingAddressZipCode() {
+    return this.checkoutFormGroup.get('billingAddress.zipCode')!;
+  }
+
+  get creditCardType() {
+    return this.checkoutFormGroup.get('creditCard.cardType')!;
+  }
+
+  get creditCardNameOnCard() {
+    return this.checkoutFormGroup.get('creditCard.nameOnCard')!;
+  }
+
+  get creditCardNumber() {
+    return this.checkoutFormGroup.get('creditCard.cardNumber')!;
+  }
+
+  get creditCardSecurityCode() {
+    return this.checkoutFormGroup.get('creditCard.securityCode')!;
+  }
 
 
   copyShippingAddressToBillingAddress({event}: { event: any }) {
@@ -144,8 +184,7 @@ export class CheckoutComponent implements OnInit {
       // bug fix for states
 
       this.billingAddressStates = this.shippingAddressStates;
-    }
-    else {
+    } else {
       this.checkoutFormGroup.controls['billingAddress'].reset();
 
       // bug fix for states
@@ -180,10 +219,10 @@ export class CheckoutComponent implements OnInit {
      */
 
     // ------ short way of doing the same thing
-      let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
+    let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
 
     // set up purchase
-      let purchase = new Purchase();
+    let purchase = new Purchase();
     // populate purchase - customer
     purchase.customer = this.checkoutFormGroup.controls['customer'].value;
 
@@ -220,9 +259,10 @@ export class CheckoutComponent implements OnInit {
         error: err => {
           alert(`There was an error: ${err.message}`);
         }
-       }
+      }
     )
   }
+
   private resetCart() {
     //reset cart data
     this.cartService.cartItems = [];
@@ -236,8 +276,8 @@ export class CheckoutComponent implements OnInit {
     this.router.navigateByUrl("/products");
   }
 
-    handleMonthsAndYears() {
-    const  creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
+  handleMonthsAndYears() {
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
 
     const currentYear: number = new Date().getFullYear();
     const selectedYear: number = Number(creditCardFormGroup?.value.expirationYear);
@@ -248,8 +288,7 @@ export class CheckoutComponent implements OnInit {
 
     if (currentYear === selectedYear) {
       startMonth = new Date().getMonth() + 1;
-    }
-    else{
+    } else {
       startMonth = 1;
     }
 
@@ -268,15 +307,14 @@ export class CheckoutComponent implements OnInit {
     const countryCode = formGroup?.value.country.code;
     const countryName = formGroup?.value.country.name;
 
-    console.log( `${formGroupName} country code: ${countryCode} `);
-    console.log( `${formGroupName} country name: ${countryName} `);
+    console.log(`${formGroupName} country code: ${countryCode} `);
+    console.log(`${formGroupName} country name: ${countryName} `);
 
     this.luv2ShopFormService.getStates(countryCode).subscribe(
       data => {
-        if (formGroupName === "shippingAddress"){
+        if (formGroupName === "shippingAddress") {
           this.shippingAddressStates = data;
-        }
-        else
+        } else
           this.billingAddressStates = data;
 
         // select first item by default
@@ -297,6 +335,4 @@ export class CheckoutComponent implements OnInit {
       totalPrice => this.totalPrice = totalPrice
     );
   }
-
-
 }
